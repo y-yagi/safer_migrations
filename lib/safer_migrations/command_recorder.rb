@@ -17,5 +17,13 @@ module SaferMigrations
     def invert_safer_remove_columns(args)
       invert_remove_columns(args)
     end
+
+    ruby2_keywords def safer_rename_column(*args, &block)
+      record(:safer_rename_column, args, &block)
+    end
+
+    def invert_safer_rename_column(args)
+      invert_rename_column(args)
+    end
   end
 end

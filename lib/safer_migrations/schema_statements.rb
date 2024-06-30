@@ -14,6 +14,11 @@ module SaferMigrations
       remove_columns(table_name, *column_names, type = nil, **options)
     end
 
+    def safer_rename_column(table_name, column_name, new_column_name)
+      validate_remove_column(table_name, column_name)
+      rename_column(table_name, column_name, new_column_name)
+    end
+
     private
 
     def validate_remove_column(table_name, column_name)

@@ -49,3 +49,15 @@ class RemoveNameFromProductsByRemoveColumns < ActiveRecord::Migration::Current
     safer_remove_columns :products, :name, type: :string
   end
 end
+
+class RenameNameInUsers < ActiveRecord::Migration::Current
+  def change
+    safer_rename_column :users, :name, :new_name
+  end
+end
+
+class RenameNameInProducts < ActiveRecord::Migration::Current
+  def change
+    safer_rename_column :products, :name, :new_name
+  end
+end

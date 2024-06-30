@@ -38,4 +38,20 @@ class TestSaferMigrations < Minitest::Test
   ensure
     RemoveNameFromProductsByRemoveColumns.add_column(:products, :name, :string, if_not_exists: true)
   end
+
+  def test_unsafe_rename_column
+    error = assert_raises(SaferMigrations::DangerousMigrationError) do
+      RenameNameInUsers.migrate(:up)
+    end
+    assert_equal "'User' model still uses 'name'", error.message
+  end
+
+  def test_safe_rename_column
+    RenameNameInProducts.migrate(:up)
+    assert_equal ["id", "new_name"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
+
+    Product.reset_column_information
+    RenameNameInProducts.migrate(:down)
+    assert_equal ["id", "name"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
+  end
 end
