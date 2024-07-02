@@ -35,3 +35,12 @@ class RenameNameInProducts < ActiveRecord::Migration::Current
     safer_rename_column :products, :name, :new_name
   end
 end
+
+class RemoveNameFromUsersByChangeTableRemove < ActiveRecord::Migration::Current
+  def change
+    change_table :users do |t|
+      t.string :email
+      t.safer_remove(:name)
+    end
+  end
+end
