@@ -44,3 +44,11 @@ class RemoveNameFromUsersByChangeTableRemove < ActiveRecord::Migration::Current
     end
   end
 end
+
+class RemoveNameFromProductsByChangeTableRemove < ActiveRecord::Migration::Current
+  def change
+    change_table :products do |t|
+      t.safer_remove :name, type: :string
+    end
+  end
+end

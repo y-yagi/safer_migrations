@@ -62,4 +62,13 @@ class TestSaferMigrations < Minitest::Test
     assert_equal "'User' model still uses 'name'", error.message
     assert_equal ["id", "name"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
   end
+
+  def test_safe_remove_column_with_change_table
+    RemoveNameFromProductsByChangeTableRemove.migrate(:up)
+    assert_equal ["id"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
+
+    RemoveNameFromProductsByChangeTableRemove.migrate(:down)
+    Product.reset_column_information
+    assert_equal ["id", "name"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
+  end
 end
