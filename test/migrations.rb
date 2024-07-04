@@ -39,7 +39,7 @@ end
 class RemoveNameFromUsersByChangeTableRemove < ActiveRecord::Migration::Current
   def change
     change_table :users do |t|
-      t.safer_remove(:name)
+      t.safer_remove :name
     end
   end
 end
