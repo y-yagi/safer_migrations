@@ -71,4 +71,21 @@ class TestSaferMigrations < Minitest::Test
     RemoveNameFromProductsByChangeTableRemove.migrate(:down)
     assert_equal ["id", "name"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
   end
+
+  def test_unsafe_rename_column_with_change_table
+    error = assert_raises(SaferMigrations::DangerousMigrationError) do
+      RenameNameFromUsersByChangeTable.migrate(:up)
+    end
+    assert_equal "'User' model still uses 'name'", error.message
+    assert_equal ["id", "name"], ActiveRecord::Base.connection.schema_cache.columns_hash("users").keys
+  end
+
+  def test_safe_rename_column_with_change_table
+    RenameNameFromProductsByChangeTable.migrate(:up)
+    assert_equal ["id", "new_name", "price"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
+
+    Product.reset_column_information
+    RenameNameFromProductsByChangeTable.migrate(:down)
+    assert_equal ["id", "name"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
+  end
 end
