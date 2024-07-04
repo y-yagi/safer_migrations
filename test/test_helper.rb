@@ -8,7 +8,13 @@ require_relative "migrations"
 require "minitest/autorun"
 
 ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: ":memory:")
-ActiveRecord::Base.logger = Logger.new(File::NULL)
+
+if ENV["DEBUG"]
+  ActiveRecord::Base.logger = Logger.new(STDOUT)
+else
+  ActiveRecord::Base.logger = Logger.new(File::NULL)
+  ActiveRecord::Migration.verbose = false
+end
 
 ActiveRecord::Schema.define do
   create_table :users do |t|
