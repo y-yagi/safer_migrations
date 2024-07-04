@@ -1,6 +1,7 @@
 # SaferMigrations
 
 `SaferMigrations` provides safer methods for Active Record Migrations.
+
 ## Installation
 
 Install the gem and add to the application's Gemfile by executing:
@@ -13,7 +14,18 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 ## Usage
 
-TODO: Write usage instructions here
+This gem provides the following methods for Active Record Migrations.
+
+* `safer_remove_column`
+* `safer_remove_columns`
+* `safer_rename_column`
+* `t.safer_remove`
+* `t.safer_rename`
+
+These methods check whether a column that will be removed is still used in a model. If a model uses it, these methods raise an error. In that case, you should specify a column to `ignored_columns` first.
+
+Except for checking it, the behavior is same as well as the Rail's default methods.
+
 
 ## Development
 
