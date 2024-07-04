@@ -67,8 +67,8 @@ class TestSaferMigrations < Minitest::Test
     RemoveNameFromProductsByChangeTableRemove.migrate(:up)
     assert_equal ["id"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
 
-    RemoveNameFromProductsByChangeTableRemove.migrate(:down)
     Product.reset_column_information
+    RemoveNameFromProductsByChangeTableRemove.migrate(:down)
     assert_equal ["id", "name"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
   end
 end
