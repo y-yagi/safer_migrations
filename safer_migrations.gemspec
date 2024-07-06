@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email = ["yuuji.yaginuma@gmail.com"]
 
   spec.summary = "Provide safer migration methods"
-  spec.homepage = "https://github.com/y-yagi"
+  spec.homepage = "https://github.com/y-yagi/safer_migrations"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.1.0"
 
