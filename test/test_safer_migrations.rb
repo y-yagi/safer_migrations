@@ -5,87 +5,87 @@ require "test_helper"
 class TestSaferMigrations < Minitest::Test
   def test_unsafe_remove_column
     error = assert_raises(SaferMigrations::DangerousMigrationError) do
-      RemoveNameFromUsersByRemoveColumn.migrate(:up)
+      RemoveNameFromUsersBySaferRemoveColumn.migrate(:up)
     end
     assert_equal "'User' model still uses 'name'", error.message
   end
 
   def test_safe_remove_column
-    RemoveNameFromProductsByRemoveColumn.migrate(:up)
+    RemoveNameFromProductsBySaferRemoveColumn.migrate(:up)
     assert_equal ["id"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
 
     Product.reset_column_information
-    RemoveNameFromProductsByRemoveColumn.migrate(:down)
+    RemoveNameFromProductsBySaferRemoveColumn.migrate(:down)
     assert_equal ["id", "name"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
   ensure
-    RemoveNameFromProductsByRemoveColumn.add_column(:products, :name, :string, if_not_exists: true)
+    RemoveNameFromProductsBySaferRemoveColumn.add_column(:products, :name, :string, if_not_exists: true)
   end
 
   def test_unsafe_remove_columns
     error = assert_raises(SaferMigrations::DangerousMigrationError) do
-      RemoveNameFromUsersByRemoveColumns.migrate(:up)
+      RemoveNameFromUsersBySaferRemoveColumns.migrate(:up)
     end
     assert_equal "'User' model still uses 'name'", error.message
   end
 
   def test_safe_remove_columns
-    RemoveNameFromProductsByRemoveColumns.migrate(:up)
+    RemoveNameFromProductsBySaferRemoveColumns.migrate(:up)
     assert_equal ["id"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
 
     Product.reset_column_information
-    RemoveNameFromProductsByRemoveColumns.migrate(:down)
+    RemoveNameFromProductsBySaferRemoveColumns.migrate(:down)
     assert_equal ["id", "name"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
   ensure
-    RemoveNameFromProductsByRemoveColumns.add_column(:products, :name, :string, if_not_exists: true)
+    RemoveNameFromProductsBySaferRemoveColumns.add_column(:products, :name, :string, if_not_exists: true)
   end
 
   def test_unsafe_rename_column
     error = assert_raises(SaferMigrations::DangerousMigrationError) do
-      RenameNameInUsers.migrate(:up)
+      SaferRenameNameInUsers.migrate(:up)
     end
     assert_equal "'User' model still uses 'name'", error.message
   end
 
   def test_safe_rename_column
-    RenameNameInProducts.migrate(:up)
+    SaferRenameNameInProducts.migrate(:up)
     assert_equal ["id", "new_name"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
 
     Product.reset_column_information
-    RenameNameInProducts.migrate(:down)
+    SaferRenameNameInProducts.migrate(:down)
     assert_equal ["id", "name"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
   end
 
   def test_unsafe_remove_column_with_change_table
     error = assert_raises(SaferMigrations::DangerousMigrationError) do
-      RemoveNameFromUsersByChangeTableRemove.migrate(:up)
+      SaferRemoveNameFromUsersByChangeTableRemove.migrate(:up)
     end
     assert_equal "'User' model still uses 'name'", error.message
     assert_equal ["id", "name"], ActiveRecord::Base.connection.schema_cache.columns_hash("users").keys
   end
 
   def test_safe_remove_column_with_change_table
-    RemoveNameFromProductsByChangeTableRemove.migrate(:up)
+    SaferRemoveNameFromProductsByChangeTableRemove.migrate(:up)
     assert_equal ["id"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
 
     Product.reset_column_information
-    RemoveNameFromProductsByChangeTableRemove.migrate(:down)
+    SaferRemoveNameFromProductsByChangeTableRemove.migrate(:down)
     assert_equal ["id", "name"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
   end
 
   def test_unsafe_rename_column_with_change_table
     error = assert_raises(SaferMigrations::DangerousMigrationError) do
-      RenameNameFromUsersByChangeTable.migrate(:up)
+      SaferRenameNameFromUsersByChangeTable.migrate(:up)
     end
     assert_equal "'User' model still uses 'name'", error.message
     assert_equal ["id", "name"], ActiveRecord::Base.connection.schema_cache.columns_hash("users").keys
   end
 
   def test_safe_rename_column_with_change_table
-    RenameNameFromProductsByChangeTable.migrate(:up)
+    SaferRenameNameFromProductsByChangeTable.migrate(:up)
     assert_equal ["id", "new_name", "price"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
 
     Product.reset_column_information
-    RenameNameFromProductsByChangeTable.migrate(:down)
+    SaferRenameNameFromProductsByChangeTable.migrate(:down)
     assert_equal ["id", "name"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
   end
 end

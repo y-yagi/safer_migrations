@@ -1,42 +1,42 @@
 # frozen_string_literal: true
 
-class RemoveNameFromUsersByRemoveColumn < ActiveRecord::Migration::Current
+class RemoveNameFromUsersBySaferRemoveColumn < ActiveRecord::Migration::Current
   def change
     safer_remove_column :users, :name
   end
 end
 
-class RemoveNameFromProductsByRemoveColumn < ActiveRecord::Migration::Current
+class RemoveNameFromProductsBySaferRemoveColumn < ActiveRecord::Migration::Current
   def change
     safer_remove_column :products, :name, :string
   end
 end
 
-class RemoveNameFromUsersByRemoveColumns < ActiveRecord::Migration::Current
+class RemoveNameFromUsersBySaferRemoveColumns < ActiveRecord::Migration::Current
   def change
     safer_remove_columns :users, :name
   end
 end
 
-class RemoveNameFromProductsByRemoveColumns < ActiveRecord::Migration::Current
+class RemoveNameFromProductsBySaferRemoveColumns < ActiveRecord::Migration::Current
   def change
     safer_remove_columns :products, :name, type: :string
   end
 end
 
-class RenameNameInUsers < ActiveRecord::Migration::Current
+class SaferRenameNameInUsers < ActiveRecord::Migration::Current
   def change
     safer_rename_column :users, :name, :new_name
   end
 end
 
-class RenameNameInProducts < ActiveRecord::Migration::Current
+class SaferRenameNameInProducts < ActiveRecord::Migration::Current
   def change
     safer_rename_column :products, :name, :new_name
   end
 end
 
-class RemoveNameFromUsersByChangeTableRemove < ActiveRecord::Migration::Current
+class SaferRemoveNameFromUsersByChangeTableRemove < ActiveRecord::Migration::Current
   def change
     change_table :users do |t|
       t.safer_remove :name
@@ -44,7 +44,7 @@ class RemoveNameFromUsersByChangeTableRemove < ActiveRecord::Migration::Current
   end
 end
 
-class RemoveNameFromProductsByChangeTableRemove < ActiveRecord::Migration::Current
+class SaferRemoveNameFromProductsByChangeTableRemove < ActiveRecord::Migration::Current
   def change
     change_table :products do |t|
       t.safer_remove :name, type: :string
@@ -52,7 +52,7 @@ class RemoveNameFromProductsByChangeTableRemove < ActiveRecord::Migration::Curre
   end
 end
 
-class RenameNameFromUsersByChangeTable < ActiveRecord::Migration::Current
+class SaferRenameNameFromUsersByChangeTable < ActiveRecord::Migration::Current
   def change
     change_table :users do |t|
       t.safer_rename :name, :new_name
@@ -60,7 +60,7 @@ class RenameNameFromUsersByChangeTable < ActiveRecord::Migration::Current
   end
 end
 
-class RenameNameFromProductsByChangeTable < ActiveRecord::Migration::Current
+class SaferRenameNameFromProductsByChangeTable < ActiveRecord::Migration::Current
   def change
     change_table :products do |t|
       t.integer :price
