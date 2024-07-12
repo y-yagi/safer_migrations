@@ -68,3 +68,37 @@ class SaferRenameNameFromProductsByChangeTable < ActiveRecord::Migration::Curren
     end
   end
 end
+
+class RemoveNameFromUsersByRemoveColumn < ActiveRecord::Migration::Current
+  def change
+    remove_column :users, :name, :string
+  end
+end
+
+class RemoveNameFromUsersByRemoveColumns < ActiveRecord::Migration::Current
+  def change
+    remove_columns :users, :name, type: :string
+  end
+end
+
+class RenameNameInUsers < ActiveRecord::Migration::Current
+  def change
+    rename_column :users, :name, :new_name
+  end
+end
+
+class RemoveNameFromUsersByChangeTableRemove < ActiveRecord::Migration::Current
+  def change
+    change_table :users do |t|
+      t.remove :name, type: :string
+    end
+  end
+end
+
+class RenameNameFromUsersByChangeTable < ActiveRecord::Migration::Current
+  def change
+    change_table :users do |t|
+      t.rename :name, :new_name
+    end
+  end
+end
