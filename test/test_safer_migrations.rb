@@ -30,6 +30,7 @@ class TestSaferMigrations < Minitest::Test
 
   def test_safe_remove_columns
     RemoveNameFromProductsBySaferRemoveColumns.migrate(:up)
+    Product.reset_column_information
     assert_equal ["id"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
 
     Product.reset_column_information

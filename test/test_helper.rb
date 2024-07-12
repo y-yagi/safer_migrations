@@ -7,6 +7,10 @@ require "safer_migrations"
 require_relative "migrations"
 require "minitest/autorun"
 
+if ENV["ENFORCE_SAFER_METHODS"] == "true"
+  SaferMigrations.enforce_safer_methods = true
+end
+
 ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: ":memory:")
 
 if ENV["DEBUG"]
@@ -30,5 +34,5 @@ class User < ActiveRecord::Base
 end
 
 class Product < ActiveRecord::Base
-  self.ignored_columns = [:name]
+  self.ignored_columns = [:name, :new_name, :price]
 end
