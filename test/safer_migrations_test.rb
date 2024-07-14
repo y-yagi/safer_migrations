@@ -12,10 +12,11 @@ class SaferMigrationsTest < Minitest::Test
 
   def test_safe_remove_column
     RemoveNameFromProductsBySaferRemoveColumn.migrate(:up)
+    Product.reset_column_information
     assert_equal ["id"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
 
-    Product.reset_column_information
     RemoveNameFromProductsBySaferRemoveColumn.migrate(:down)
+    Product.reset_column_information
     assert_equal ["id", "name"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
   ensure
     RemoveNameFromProductsBySaferRemoveColumn.add_column(:products, :name, :string, if_not_exists: true)
@@ -33,8 +34,8 @@ class SaferMigrationsTest < Minitest::Test
     Product.reset_column_information
     assert_equal ["id"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
 
-    Product.reset_column_information
     RemoveNameFromProductsBySaferRemoveColumns.migrate(:down)
+    Product.reset_column_information
     assert_equal ["id", "name"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
   ensure
     RemoveNameFromProductsBySaferRemoveColumns.add_column(:products, :name, :string, if_not_exists: true)
@@ -49,10 +50,11 @@ class SaferMigrationsTest < Minitest::Test
 
   def test_safe_rename_column
     SaferRenameNameInProducts.migrate(:up)
+    Product.reset_column_information
     assert_equal ["id", "new_name"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
 
-    Product.reset_column_information
     SaferRenameNameInProducts.migrate(:down)
+    Product.reset_column_information
     assert_equal ["id", "name"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
   end
 
@@ -66,10 +68,11 @@ class SaferMigrationsTest < Minitest::Test
 
   def test_safe_remove_column_with_change_table
     SaferRemoveNameFromProductsByChangeTableRemove.migrate(:up)
+    Product.reset_column_information
     assert_equal ["id"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
 
-    Product.reset_column_information
     SaferRemoveNameFromProductsByChangeTableRemove.migrate(:down)
+    Product.reset_column_information
     assert_equal ["id", "name"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
   end
 
@@ -83,10 +86,11 @@ class SaferMigrationsTest < Minitest::Test
 
   def test_safe_rename_column_with_change_table
     SaferRenameNameFromProductsByChangeTable.migrate(:up)
+    Product.reset_column_information
     assert_equal ["id", "new_name", "price"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
 
-    Product.reset_column_information
     SaferRenameNameFromProductsByChangeTable.migrate(:down)
+    Product.reset_column_information
     assert_equal ["id", "name"], ActiveRecord::Base.connection.schema_cache.columns_hash("products").keys
   end
 end
