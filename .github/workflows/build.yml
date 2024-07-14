@@ -10,11 +10,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Ruby ${{ matrix.ruby }}, Rails ${{ matrix.gemfile }}
+    name: Ruby ${{ matrix.ruby }}, Rails ${{ matrix.gemfile }} enforce safer methods ${{ matrix.enforce_safer_methods }}
     strategy:
       matrix:
         ruby: [ "3.3", "3.2", "3.1" ]
         gemfile: [ "activerecord_72.gemfile", "activerecord_71.gemfile", "activerecord_70.gemfile", "activerecord_61.gemfile" ]
+        enforce_safer_methods: [ "true", "false" ]
 
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}
@@ -28,3 +29,5 @@ jobs:
         bundler-cache: true
     - name: Run the default task
       run: bundle exec rake
+      env:
+        ENFORCE_SAFER_METHODS: ${{ matrix.enforce_safer_methods  }}
