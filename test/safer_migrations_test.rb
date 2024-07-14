@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class TestSaferMigrations < Minitest::Test
+class SaferMigrationsTest < Minitest::Test
   def test_unsafe_remove_column
     error = assert_raises(SaferMigrations::DangerousMigrationError) do
       RemoveNameFromUsersBySaferRemoveColumn.migrate(:up)

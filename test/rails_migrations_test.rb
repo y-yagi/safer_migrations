@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class TestRailsMigrations < Minitest::Test
+class RailsMigrationsTest < Minitest::Test
   if SaferMigrations.enforce_safer_methods
     def test_remove_column
       error = assert_raises(SaferMigrations::DangerousMigrationError) do
