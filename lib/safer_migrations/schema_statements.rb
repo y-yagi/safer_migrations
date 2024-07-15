@@ -26,14 +26,15 @@ module SaferMigrations
     else
       def safer_remove_column(table_name, column_name, type = nil, **options)
         validate_remove_column(table_name, column_name)
-        remove_column(table_name, column_name, type = nil, **options)
+        remove_column(table_name, column_name, type, **options)
       end
 
       def safer_remove_columns(table_name, *column_names, type: nil, **options)
         column_names.each do |column_name|
           validate_remove_column(table_name, column_name)
         end
-        remove_columns(table_name, *column_names, type = nil, **options)
+
+        remove_columns(table_name, *column_names, type: type, **options)
       end
 
       def safer_rename_column(table_name, column_name, new_column_name)
