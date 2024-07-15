@@ -11,7 +11,11 @@ if ENV["ENFORCE_SAFER_METHODS"] == "true"
   SaferMigrations.enforce_safer_methods = true
 end
 
-ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: ":memory:")
+if ENV["ADAPTER"]
+  ActiveRecord::Base.establish_connection(adapter: ENV["ADAPTER"], database: "safer_migrations_test", host: "127.0.0.1")
+else
+  ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: ":memory:")
+end
 
 if ENV["DEBUG"]
   ActiveRecord::Base.logger = Logger.new(STDOUT)
@@ -21,11 +25,11 @@ else
 end
 
 ActiveRecord::Schema.define do
-  create_table :users do |t|
+  create_table :users, force: true do |t|
     t.string :name
   end
 
-  create_table :products do |t|
+  create_table :products, force: true do |t|
     t.string :name
   end
 end
