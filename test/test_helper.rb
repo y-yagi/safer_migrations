@@ -21,11 +21,11 @@ else
 end
 
 ActiveRecord::Schema.define do
-  create_table :users do |t|
+  create_table :users, force: true do |t|
     t.string :name
   end
 
-  create_table :products do |t|
+  create_table :products, force: true do |t|
     t.string :name
   end
 end
